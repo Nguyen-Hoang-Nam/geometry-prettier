@@ -5,7 +5,7 @@ const Tab = forwardRef(function Tab(props, ref) {
   const tab = useRef(null);
 
   props.connectDragSource(tab);
-  props.connectDropSource(tab);
+  props.connectDropTarget(tab);
   useImperativeHandle(ref, () => ({
     getNode: () => tab.current,
   }));
@@ -68,7 +68,7 @@ export default DropTarget(
     },
   },
   (connect) => ({
-    connectDropSource: connect.dropTarget(),
+    connectDropTarget: connect.dropTarget(),
   })
 )(
   DragSource(

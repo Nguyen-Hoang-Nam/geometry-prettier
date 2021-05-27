@@ -51,7 +51,8 @@ function TabBar(props) {
   };
 
   return (
-    <div className="flex pl-4 bg-white items-center">
+    <div className="flex bg-white items-center">
+      <div className="px-4">Logo</div>
       {props.filePosition.map(TabComponent)}
       <AddButton className="h-6 py-1 w-8" onClick={createNewFile} />
     </div>

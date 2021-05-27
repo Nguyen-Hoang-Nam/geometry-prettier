@@ -2,16 +2,17 @@ import { useState } from "react";
 
 import "./App.css";
 
-import { ToolBar, TabBar, Main, Footer } from "./layout.js";
+import { TabBar, Main, Footer } from "./layout.js";
 
 function App() {
   const [contents, setContents] = useState([
     {
       id: 0,
       type: 0,
-      content: "Empty",
+      content: "",
     },
   ]);
+  const [boxsPosition, setBoxsPosition] = useState([0]);
   const [newContentId, setNewContentId] = useState(1);
   const [fileList, setFileList] = useState([{ id: 0, fileName: "Untitled0" }]);
   const [filePosition, setFilePosition] = useState([0]);
@@ -20,7 +21,6 @@ function App() {
 
   return (
     <div className="flex h-screen flex-col">
-      <ToolBar />
       <TabBar
         fileList={fileList}
         setFileList={setFileList}
@@ -36,6 +36,8 @@ function App() {
         setContents={setContents}
         newContentId={newContentId}
         setNewContentId={setNewContentId}
+        boxsPosition={boxsPosition}
+        setBoxsPosition={setBoxsPosition}
       />
       <Footer />
     </div>

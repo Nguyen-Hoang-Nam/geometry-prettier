@@ -1,43 +1,94 @@
-import React from "react";
+import React, { useState } from "react";
 
+import { Scrollbars } from "react-custom-scrollbars";
 import Box from "./box.jsx";
+import BoxOptionsMenu from "./boxOptionsMenu.jsx";
 
-import { ReactComponent as AddButton } from "../img/add.svg";
 import update from "immutability-helper";
 
 function Main(props) {
-  function createContentBox(index) {
-    props.setContents(
-      update(props.contents, {
+  const [currentBox, setCurrentBox] = useState(-1);
+
+  function moveBox(dragIndex, hoverIndex) {
+    const fileId = props.boxsPosition[dragIndex];
+
+    props.setBoxsPosition(
+      update(props.boxsPosition, {
         $splice: [
-          [
-            index + 1,
-            0,
-            {
-              id: props.newContentId,
-              type: 0,
-              content: "Empty",
-            },
-          ],
+          [dragIndex, 1],
+          [hoverIndex, 0, fileId],
         ],
       })
     );
+  }
 
+  function createContentBox(index) {
+    props.setContents([
+      ...props.contents,
+      { id: props.newContentId, type: 0, content: "" },
+    ]);
+
+    props.setBoxsPosition(
+      update(props.boxsPosition, {
+        $splice: [[index + 1, 0, props.newContentId]],
+      })
+    );
     props.setNewContentId(props.newContentId + 1);
   }
 
-  return (
-    <div className="bg-gray-300 flex-grow py-16 overflow-auto">
-      {props.contents.map((content, index) => (
-        <React.Fragment key={content.id}>
-          <Box content={content} />
-          <AddButton
-            onClick={() => createContentBox(index)}
-            className="h-4 w-4 mx-auto my-6 rounded-full bg-white box-content p-2 border-2 border-black cursor-pointer"
+  const scrollbarComponent = ({ style, ...props }) => {
+    const customStyle = {
+      backgroundColor: "#FFFFFF",
+      opacity: 0.8,
+    };
+    return <div {...props} style={{ ...style, ...customStyle }} />;
+  };
+
+  const BoxComponent = (position, index) => {
+    return (
+      <React.Fragment key={position}>
+        {props.contents[position] ? (
+          <Box
+            currentBox={currentBox}
+            setCurrentBox={setCurrentBox}
+            content={props.contents[position]}
+            index={index}
+            contents={props.contents}
+            moveBox={moveBox}
+            createContentBox={createContentBox}
           />
-        </React.Fragment>
-      ))}
-    </div>
+        ) : (
+          ""
+        )}
+
+        <div className="flex">
+          <div className="flex-grow flex justify-end pr-2">
+            <BoxOptionsMenu
+              index={index}
+              contents={props.contents}
+              setContents={props.setContents}
+              boxsPosition={props.boxsPosition}
+              setBoxsPosition={props.setBoxsPosition}
+              newContentId={props.newContentId}
+              setNewContentId={props.setNewContentId}
+            />
+          </div>
+
+          <div className="w-4/5"></div>
+
+          <div className="flex-grow"></div>
+        </div>
+      </React.Fragment>
+    );
+  };
+
+  return (
+    <Scrollbars
+      renderThumbVertical={scrollbarComponent}
+      className="bg-gray-300 flex-grow"
+    >
+      <div className="py-20">{props.boxsPosition.map(BoxComponent)}</div>
+    </Scrollbars>
   );
 }
 
