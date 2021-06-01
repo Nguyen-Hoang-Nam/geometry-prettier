@@ -1,7 +1,7 @@
 function ImageBox(props) {
   return (
     <div>
-      <img src={props.img} />
+      <img src={props.img} alt="Show area" />
     </div>
   );
 }

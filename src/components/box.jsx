@@ -89,6 +89,7 @@ const Box = forwardRef(function Box(props, ref) {
     if (isEditText && props.currentBox !== props.index) {
       setIsEditText(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.currentBox]);
 
   const fontSizeOptions = [
