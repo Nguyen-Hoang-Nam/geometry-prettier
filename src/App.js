@@ -1,20 +1,34 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import "./App.css";
+import './App.css';
 
-import { TabBar, Main, Footer } from "./layout.js";
+import { TabBar, Main, Footer } from './layout.js';
 
 function App() {
   const [contents, setContents] = useState([
     {
       id: 0,
       type: 0,
-      content: "",
+      content: '',
     },
   ]);
   const [boxsPosition, setBoxsPosition] = useState([0]);
   const [newContentId, setNewContentId] = useState(1);
-  const [fileList, setFileList] = useState([{ id: 0, fileName: "Untitled0" }]);
+  const [fileList, setFileList] = useState([
+    {
+      id: 0,
+      fileName: 'Untitled0',
+      contents: [
+        {
+          id: 0,
+          type: 0,
+          content: '',
+        },
+      ],
+      boxsPosition: [0],
+      newContentId: 1,
+    },
+  ]);
   const [filePosition, setFilePosition] = useState([0]);
   const [currentFile, setCurrentFile] = useState(0);
   const [newId, setNewId] = useState(1);
@@ -32,6 +46,9 @@ function App() {
         setNewId={setNewId}
       />
       <Main
+        fileList={fileList}
+        setFileList={setFileList}
+        currentFile={currentFile}
         contents={contents}
         setContents={setContents}
         newContentId={newContentId}

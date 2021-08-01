@@ -4,27 +4,27 @@ import {
   useEffect,
   forwardRef,
   useImperativeHandle,
-} from "react";
+} from 'react';
 
-import ReactMathjaxPreview from "react-mathjax-2.7.8-preview";
-import TextareaAutosize from "react-textarea-autosize";
-import { DragSource, DropTarget } from "react-dnd";
-import Dropdown from "react-dropdown";
-import "react-dropdown/style.css";
+import ReactMathjaxPreview from 'react-mathjax-2.7.8-preview';
+import TextareaAutosize from 'react-textarea-autosize';
+import { DragSource, DropTarget } from 'react-dnd';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
-import ColorPicker from "./colorPicker.jsx";
-import ImageBox from "./imageBox.jsx";
-import UploadBox from "./uploadBox.jsx";
+import ColorPicker from './colorPicker.jsx';
+import ImageBox from './imageBox.jsx';
+import UploadBox from './uploadBox.jsx';
 
-import dragIcon from "../img/drag.svg";
-import boldIcon from "../img/bold.svg";
-import italicIcon from "../img/italic.svg";
-import underlineIcon from "../img/underline.svg";
+import dragIcon from '../img/drag.svg';
+import boldIcon from '../img/bold.svg';
+import italicIcon from '../img/italic.svg';
+import underlineIcon from '../img/underline.svg';
 
 const Box = forwardRef(function Box(props, ref) {
   const [isEditText, setIsEditText] = useState(false);
   const [isEditImage, setIsEditImage] = useState(false);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
 
   const textArea = useRef(null);
   const box = useRef(null);
@@ -34,7 +34,7 @@ const Box = forwardRef(function Box(props, ref) {
   props.connectDragPreview(box);
   props.connectDropTarget(box);
 
-  const opacity = props.isDragging ? "opacity-40" : "opacity-100";
+  const opacity = props.isDragging ? 'opacity-40' : 'opacity-100';
 
   useImperativeHandle(ref, () => ({
     getNode: () => box.current,
@@ -74,10 +74,14 @@ const Box = forwardRef(function Box(props, ref) {
   }
 
   function changeFontSize(option) {
-    if (option.label !== "normal") {
+    if (option.label !== 'normal') {
       insertTex(`$\\${option.label}{}$`);
     }
   }
+
+  useEffect(() => {
+    setContent(props.content.content);
+  }, [props.currentFile]);
 
   useEffect(() => {
     if (isEditText) {
@@ -93,13 +97,13 @@ const Box = forwardRef(function Box(props, ref) {
   }, [props.currentBox]);
 
   const fontSizeOptions = [
-    "tiny",
-    "scriptsize",
-    "small",
-    "normal",
-    "large",
-    "LARGE",
-    "huge",
+    'tiny',
+    'scriptsize',
+    'small',
+    'normal',
+    'large',
+    'LARGE',
+    'huge',
   ];
 
   return (
@@ -115,7 +119,7 @@ const Box = forwardRef(function Box(props, ref) {
 
       <div
         className={`w-full h-full top-0 left-0 ${
-          isEditText ? "absolute" : "hidden"
+          isEditText ? 'absolute' : 'hidden'
         }`}
         onClick={() => setIsEditText(false)}
       ></div>
@@ -123,38 +127,38 @@ const Box = forwardRef(function Box(props, ref) {
       <div
         onClick={focusContent}
         className="w-4/5 mx-auto bg-white p-4 rounded relative cursor-pointer"
-        style={{ minHeight: "4rem" }}
+        style={{ minHeight: '4rem' }}
       >
         <div
           className={`absolute -top-9 bg-white rounded-t -ml-4 px-2 pt-2 gap-2 items-center ${
-            isEditText ? "flex" : "hidden"
+            isEditText ? 'flex' : 'hidden'
           }`}
         >
           <Dropdown
             options={fontSizeOptions}
             controlClassName="cursor-pointer border-gray-300 h-8"
-            value={"normal"}
+            value={'normal'}
             onChange={changeFontSize}
           />
 
           <img
             src={boldIcon}
             className="w-8 h-8 p-2 cursor-pointer rounded border-2 border-gray-300"
-            onClick={() => insertTex("$\\textbf{}$")}
+            onClick={() => insertTex('$\\textbf{}$')}
             alt="Bold text"
           />
 
           <img
             src={italicIcon}
             className="w-8 h-8 p-2 cursor-pointer rounded border-2 border-gray-300"
-            onClick={() => insertTex("$\\textit{}$")}
+            onClick={() => insertTex('$\\textit{}$')}
             alt="Italic text"
           />
 
           <img
             src={underlineIcon}
             className="w-8 h-8 p-2 cursor-pointer rounded border-2 border-gray-300"
-            onClick={() => insertTex("$\\underline{}$")}
+            onClick={() => insertTex('$\\underline{}$')}
             alt="Underline text"
           />
 
@@ -169,14 +173,14 @@ const Box = forwardRef(function Box(props, ref) {
               value={content}
               onChange={editContent}
               className={`w-full outline-none ${
-                isEditText ? "block" : "hidden"
+                isEditText ? 'block' : 'hidden'
               }`}
-              style={{ resize: "none" }}
+              style={{ resize: 'none' }}
             />
 
             <ReactMathjaxPreview
               math={props.content.content}
-              className={isEditText ? "important-hidden" : "block"}
+              className={isEditText ? 'important-hidden' : 'block'}
             />
           </>
         ) : (
@@ -194,7 +198,7 @@ const Box = forwardRef(function Box(props, ref) {
 
 // export default Box;
 export default DropTarget(
-  "box",
+  'box',
   {
     hover(props, monitor, component) {
       if (!component) {
@@ -236,7 +240,7 @@ export default DropTarget(
   })
 )(
   DragSource(
-    "box",
+    'box',
     {
       beginDrag: (props) => ({
         id: props.content.id,

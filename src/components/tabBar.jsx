@@ -1,7 +1,7 @@
-import React from "react";
-import Tab from "./tab.jsx";
-import { ReactComponent as AddButton } from "../img/add.svg";
-import update from "immutability-helper";
+import React from 'react';
+import Tab from './tab.jsx';
+import { ReactComponent as AddButton } from '../img/add.svg';
+import update from 'immutability-helper';
 
 function TabBar(props) {
   function createNewFile() {
@@ -9,7 +9,16 @@ function TabBar(props) {
       ...props.fileList,
       {
         id: props.newId,
-        fileName: "Untitled" + props.newId,
+        fileName: 'Untitled' + props.newId,
+        contents: [
+          {
+            id: 0,
+            type: 0,
+            content: '',
+          },
+        ],
+        boxsPosition: [0],
+        newContentId: 1,
       },
     ]);
     props.setFilePosition([...props.filePosition, props.newId]);
@@ -44,7 +53,7 @@ function TabBar(props) {
             moveTab={moveTab}
           />
         ) : (
-          ""
+          ''
         )}
       </React.Fragment>
     );

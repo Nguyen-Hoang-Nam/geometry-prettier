@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import update from "immutability-helper";
+import update from 'immutability-helper';
 
-import textIcon from "../img/text.svg";
-import imageIcon from "../img/image.svg";
-import { ReactComponent as AddButton } from "../img/add.svg";
+import textIcon from '../img/text.svg';
+import imageIcon from '../img/image.svg';
+import { ReactComponent as AddButton } from '../img/add.svg';
 
 function BoxOptionsMenu(props) {
   const [show, setShow] = useState(false);
@@ -16,8 +16,16 @@ function BoxOptionsMenu(props) {
   function createContentBox(boxType) {
     props.setContents([
       ...props.contents,
-      { id: props.newContentId, type: boxType, content: "" },
+      { id: props.newContentId, type: boxType, content: '' },
     ]);
+
+    props.contents.push({
+      id: props.content.newContentId,
+      type: boxType,
+      content: '',
+    });
+    props.boxsPosition.push(props.content.newContentId);
+    props.content.newContentId = props.content.newContentId + 1;
 
     props.setBoxsPosition(
       update(props.boxsPosition, {
@@ -37,14 +45,14 @@ function BoxOptionsMenu(props) {
 
       <div
         className={`fixed top-0 left-0 w-screen h-screen ${
-          show ? "block" : "hidden"
+          show ? 'block' : 'hidden'
         }`}
         onClick={backgroundClick}
       ></div>
 
       <div
         className={`absolute gap-x-4 p-4 bg-white rounded top-4 left-8 z-50 border-2 border-black ${
-          show ? "flex" : "hidden"
+          show ? 'flex' : 'hidden'
         }`}
       >
         <div
